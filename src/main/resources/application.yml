@@ -1,22 +1,22 @@
 KafkaDestinationSettings:
-topicName: TestTopic
-bootstrapServiceConfig: xxx:40041
-zookeeperUrl: xxx.int:40044
+  topicName: TestTopic
+  bootstrapServiceConfig: xxx:40041
+  zookeeperUrl: xxx.int:40044
 
 KafkaLocalDestinationSettings:
-topicName: TestTopic
-bootstrapServiceConfig: localhost:9092
-zookeeperUrl: localhost:2181
+  topicName: TestTopic
+  bootstrapServiceConfig: localhost:9092
+  zookeeperUrl: localhost:2181
 
 TopicTemplate:
-title: TopicConfig for testing
-recreateTopic: true
-topicDefinition:
-topicPrefix: my
-partitions: 12
-replicas: 1
-kafkaConfig:
-delete.retention.ms: 3600000
-cleanup.policy:compact
-min.compaction.lag.ms: 0
-segment.ms: 3600000
+  title: TopicConfig for testing
+  recreateTopic: true
+  topicDefinition:
+  topicPrefix: my
+  partitions: 12
+  replicas: 1
+  kafkaConfig:
+    delete.retention.ms: 3600000
+    cleanup.policy: compact
+    min.compaction.lag.ms: 0
+    segment.ms: 3600000
