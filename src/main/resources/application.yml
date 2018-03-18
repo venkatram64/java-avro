@@ -1,7 +1,10 @@
 KafkaDestinationSettings:
-  topicName: TestTopic
-  bootstrapServiceConfig: xxx:40041
-  zookeeperUrl: xxx.int:40044
+  topicName: customer-avro
+  bootstrapServiceConfig: 192.168.99.100:9092
+  zookeeperUrl: 192.168.99.100:2181
+  acks: 1
+  retries: 10
+  schemaRegistryUrl: http://192.168.99.100:8081
 
 KafkaLocalDestinationSettings:
   topicName: TestTopic
