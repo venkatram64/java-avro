@@ -20,3 +20,6 @@ TopicTemplate:
     cleanup.policy: compact
     min.compaction.lag.ms: 0
     segment.ms: 3600000
+
+
+

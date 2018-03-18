@@ -124,3 +124,98 @@ The same command will work on both uncompressed and compressed data.
 
 java -jar ~/avro-tools-1.7.4.jar getschema twitter.avro > twitter.avsc
 java -jar ~/avro-tools-1.7.4.jar getschema twitter.snappy.avro > twitter.avsc
+
+avro evolution schema
+1. backward compatible
+    write with new schema(v1), read with new schema(v2)
+
+2. forward compatible
+    write with old schema(v2), read with old schema(v1)
+
+3. backward and forward comptible
+
+4. none
+
+**********************************
+docker-compose.yml
+version: '2'
+
+services:
+  kafka-cluster:
+    image: landoop/fast-data-dev:cp3.3.0
+    environment:
+      ADV_HOST: 192.168.99.100
+      RUNTESTS: 0
+      FORWARDLOGS: 0
+      SAMPLEDATA: 0
+    ports:
+      - 2181:2181
+      - 3030:3030
+      - 8081-8083:8081-8083
+      - 9581-9585:9581-9585
+      - 9092:9092
+
+run following commands
+docker-compose up
+docker run -it --rm --net=host confluentinc/cp-schema-registry:3.3.1 bash
+
+kafka-avro-console-consumer
+
+# produce a record with one field
+
+kafka-avro-console-producer \
+    --broker-list 192.168.99.100:9092 \
+    --topic test-avro \
+    --property schema.registry.url=http://192.168.99.100:8081 \
+    --property value.schema='
+    {"type":"record","name":"myrecord",
+    "fields":[{"name":"f1","type":"string"}]}'
+
+{"f1": "value1"}
+{"f1": "value2"}
+{"f1": "value3"}
+# let's trigger an error
+{"f2": "value4"}
+# let's trigger another error
+{"f1": 1}
+
+# consume the records from the beginning of the topic
+
+kafka-avro-console-consumer \
+    --topic test-avro \
+    --bootstrap-server 192.168.99.100:9092 \
+    --property schema.registry.url=http://192.168.99.100:8081 \
+    --from-beginning
+
+#produce some errors with incompatible schema (we changed to int)
+# - should produce a 409
+
+#in another terminal run following commands
+docker run -it --rm --net=host confluentinc/cp-schema-registry:3.3.1 bash
+
+kafka-avro-console-producer \
+    --broker-list 192.168.99.100:9092 \
+    --topic test-avro \
+    --property schema.registry.url=http://192.168.99.100:8081 \
+    --property value.schema='{"type":"int"}'
+
+#some schema evolution (we add a field f2 as an int with a default)
+kafka-avro-console-producer \
+    --broker-list 192.168.99.100:9092 \
+    --topic test-avro \
+    --property schema.registry.url=http://192.168.99.100:8081 \
+    --property value.schema='
+    {"type":"record","name":"myrecord",
+     "fields":[{"name":"f1","type":"string"},
+     {"name":"f2","type":"int","default":0}]}'
+
+
+{"f1":"evolution","f2":1}
+
+#Consume the records again from the beginning of the topic
+
+kafka-avro-console-consumer \
+    --topic test-avro \
+    --bootstrap-server 192.168.99.100:9092 \
+    --property schema.registry.url=http://192.168.99.100:8081 \
+    --from-beginning
