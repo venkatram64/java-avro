@@ -39,7 +39,7 @@ public class CustomerV1Consumer {
 
         while(true){
             ConsumerRecords<String, CustomerV1> consumerRecords = kafkaConsumer.poll(100);
-            System.out.println("records size " + consumerRecords.count());
+            //System.out.println("records size " + consumerRecords.count());
             for(ConsumerRecord<String, CustomerV1> consumerRec : consumerRecords){
                 CustomerV1 v1 = consumerRec.value();
                 System.out.println(v1.toString());

@@ -5,7 +5,7 @@ import com.venkat.avro.consumer.CustomerV1Consumer;
 import com.venkat.avro.producer.CustomerV1Producer;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class CustomerV1Service {
+public class CustomerV1ProducerService {
 
     @Autowired
     private KafkaConfig kafkaConfig;
@@ -23,14 +23,8 @@ public class CustomerV1Service {
         customerV1Producer.produce(customerV1.getFirstName(), customerV1);
     }
 
-    public void consumer(){
-        CustomerV1Consumer customerV1Consumer = new CustomerV1Consumer();
-        customerV1Consumer.consume();
-    }
-
     public static void main(String[] args) {
-        CustomerV1Service customerV1Service = new CustomerV1Service();
+        CustomerV1ProducerService customerV1Service = new CustomerV1ProducerService();
         customerV1Service.producer();
-        customerV1Service.consumer();
     }
 }
