@@ -12,6 +12,21 @@ import java.io.IOException;
 
 public class SchemaEvolutionEx {
     public static void main(String[] args) throws IOException {
+        //Backward: a backward compatible change is when a new schema can be used
+        //to read old data
+
+        backwardCompatibilityOfSchema();
+
+        //Farward: a forward compatible change is when an old schema can be used
+        //to read new data
+        //forwardCompatibilityOfSchema();
+
+        //Full: which is both backward and forward
+        //Breaking: which is none of those
+
+    }
+
+    private static void backwardCompatibilityOfSchema() throws IOException {
 
         // let's test a backward compatible read
 
@@ -45,8 +60,9 @@ public class SchemaEvolutionEx {
         }
 
         System.out.println("Backward schema evolution successful\n\n\n");
+    }
 
-
+    private static void forwardCompatibilityOfSchema() throws IOException {
         // let's test a forward compatible read
 
         // we deal with the V1 of our customer
@@ -80,6 +96,5 @@ public class SchemaEvolutionEx {
         }
 
         System.out.println("Forward schema evolution successful");
-
     }
 }

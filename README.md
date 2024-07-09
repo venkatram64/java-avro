@@ -1,7 +1,8 @@
 docker installation on windows 10
 
 your IP will be 192.168.99.100
-The docker machine that ships with Docker Toolbox comes with only 2GB of RAM, which is not enough for Kafka. You need to increase it to 4GB (at least) by running the following commands:
+The docker machine that ships with Docker Toolbox comes with only 2GB of RAM, which is not enough for Kafka. 
+You need to increase it to 4GB (at least) by running the following commands:
 docker-machine rm default docker-machine create -d virtualbox --virtualbox-memory=4096 --virtualbox-cpu-count=2 default
 
 Run the command
@@ -12,7 +13,9 @@ or
 docker-machine env default --shell powershell
 
 In a new command prompt, paste the output from the command above into the terminal
-!!!! MAKE SURE TO COPY YOUR OUTPUT, NOT THE CODE BELOW !!!! set DOCKER_TLS_VERIFY=1 set DOCKER_HOST=tcp://192.168.99.100:2376 set DOCKER_CERT_PATH=... set DOCKER_MACHINE_NAME=default
+!!!! MAKE SURE TO COPY YOUR OUTPUT, NOT THE CODE BELOW !!!! 
+set DOCKER_TLS_VERIFY=1 set DOCKER_HOST=tcp://192.168.99.100:2376 
+set DOCKER_CERT_PATH=... set DOCKER_MACHINE_NAME=default
 
 Docker for Mac >= 1.12, Linux, Docker for Windows 10
 docker run --rm -it \
