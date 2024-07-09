@@ -1,19 +1,19 @@
 package com.venkat.avro.producer;
 
 import com.venkat.avro.config.KafkaConfig;
-import com.venkat.avro.service.CustomerV1;
+import com.venkat.avro.service.CustomerV2;
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
 
-public class CustomerV1Producer {
+public class CustomerV2Producer {
 
-    private KafkaProducer<String,CustomerV1> kafkaProducer;
+    private KafkaProducer<String, CustomerV2> kafkaProducer;
     private String topicName;
 
-    public CustomerV1Producer(){
+    public CustomerV2Producer(){
 
         Properties properties = new Properties();
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka-wsl:9092");
@@ -24,10 +24,10 @@ public class CustomerV1Producer {
         properties.put("schema.registry.url", "http://kafka-wsl:8081");
         this.topicName = "customer-avro";
 
-        kafkaProducer = new KafkaProducer<String, CustomerV1>(properties);
+        kafkaProducer = new KafkaProducer<String, CustomerV2>(properties);
     }
 
-    public CustomerV1Producer(KafkaConfig kafkaConfig){
+    public CustomerV2Producer(KafkaConfig kafkaConfig){
 
         Properties properties = new Properties();
         properties.put("zookeeper.connect", kafkaConfig.getZookeeperUrl());
@@ -39,11 +39,11 @@ public class CustomerV1Producer {
         properties.put("schema.registry.url", kafkaConfig.getSchemaRegistryUrl());
         this.topicName = kafkaConfig.getTopicName();
 
-        kafkaProducer = new KafkaProducer<String, CustomerV1>(properties);
+        kafkaProducer = new KafkaProducer<String, CustomerV2>(properties);
     }
 
-    public void produce(String key, CustomerV1 customerV1){
-        kafkaProducer.send(new ProducerRecord<>(this.topicName, /*key, */customerV1), new Callback() {
+    public void produce(String key, CustomerV2 customerV2){
+        kafkaProducer.send(new ProducerRecord<>(this.topicName, /*key, */customerV2), new Callback() {
             @Override
             public void onCompletion(RecordMetadata recordMetadata, Exception e) {
                 if(e == null) {

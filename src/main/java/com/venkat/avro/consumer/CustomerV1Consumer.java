@@ -20,10 +20,10 @@ public class CustomerV1Consumer {
     public CustomerV1Consumer(){
 
         Properties properties = new Properties();
-        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.99.100:9092");
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka-wsl:9092"); //"192.168.99.100:9092"
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaAvroDeserializer.class.getName());
-        properties.put("schema.registry.url", "http://192.168.99.100:8081");
+        properties.put("schema.registry.url", "http://kafka-wsl:8081");
         properties.put("group.id","my-avro-groupid");
         properties.put("enable.auto.commit", "false");
         properties.put("auto.offset.reset","earliest"); //from beginning
@@ -38,13 +38,14 @@ public class CustomerV1Consumer {
     public void consume(){
 
         while(true){
-            ConsumerRecords<String, CustomerV1> consumerRecords = kafkaConsumer.poll(100);
+            ConsumerRecords<String, CustomerV1> consumerRecords = kafkaConsumer.poll(500);
             //System.out.println("records size " + consumerRecords.count());
             for(ConsumerRecord<String, CustomerV1> consumerRec : consumerRecords){
                 CustomerV1 v1 = consumerRec.value();
-                System.out.println(v1.toString());
+                System.out.println("***************** Reading message ***************** " + v1.toString());
             }
-            kafkaConsumer.commitAsync();
+            //kafkaConsumer.commitAsync();
+            kafkaConsumer.commitSync();
         }
     }
 }

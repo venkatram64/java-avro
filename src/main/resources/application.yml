@@ -1,10 +1,10 @@
 KafkaDestinationSettings:
   topicName: customer-avro
-  bootstrapServiceConfig: 192.168.99.100:9092
-  zookeeperUrl: 192.168.99.100:2181
+  bootstrapServiceConfig: kafka-wsl:9092
+  zookeeperUrl: kafka-wsl:2181
   acks: 1
   retries: 10
-  schemaRegistryUrl: http://192.168.99.100:8081
+  schemaRegistryUrl: http://kafka-wsl:8081
 
 KafkaLocalDestinationSettings:
   topicName: TestTopic
